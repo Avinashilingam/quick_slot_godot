@@ -1,8 +1,10 @@
 extends CharacterBody2D
 
 @onready var sprite = $AnimatedSprite2D
+@onready var quickslot_wheel = $QuickSlotWheel
 const SPEED = 100.0
 const JUMP_VELOCITY = -400.0
+@onready var quickslot_open = false
 
 
 func _physics_process(delta: float) -> void:
@@ -24,3 +26,12 @@ func _physics_process(delta: float) -> void:
 		sprite.flip_h = true if velocity.x < 0 else false
 
 	move_and_slide()
+
+func _input(_event):
+	if Input.is_action_just_pressed("show_quickslot"):
+		quickslot_open = !quickslot_open  # Toggle the boolean
+		if quickslot_open:
+			quickslot_wheel.open_wheel()
+			velocity = Vector2.ZERO  # Optional: stop movement
+		else:
+			quickslot_wheel.close_wheel()
